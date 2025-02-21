@@ -4,7 +4,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ThumbsUp, MessageCircle, Share2, Award, UserPlus } from "lucide-react";
+import { ThumbsUp, MessageCircle, Share2 } from "lucide-react";
 
 interface NetworkPost {
   id: string;
@@ -57,76 +57,41 @@ const defaultPosts: NetworkPost[] = [
 
 const NetworkFeed = ({ posts = defaultPosts }: NetworkFeedProps) => {
   return (
-    <div className="w-full h-full bg-background p-4 space-y-6 overflow-y-auto">
-      {/* Network Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <Card className="p-4 text-center">
-          <h3 className="text-lg font-semibold">245</h3>
-          <p className="text-muted-foreground">Connections</p>
-        </Card>
-        <Card className="p-4 text-center">
-          <h3 className="text-lg font-semibold">18</h3>
-          <p className="text-muted-foreground">Endorsements</p>
-        </Card>
-        <Card className="p-4 text-center">
-          <h3 className="text-lg font-semibold">12</h3>
-          <p className="text-muted-foreground">Recommendations</p>
-        </Card>
-      </div>
+    <div className="space-y-4">
+      {posts.map((post) => (
+        <Card key={post.id} className="p-4">
+          <div className="flex items-start space-x-4">
+            <Avatar className="w-12 h-12">
+              <img src={post.author.avatar} alt={post.author.name} />
+            </Avatar>
+            <div className="flex-1">
+              <div className="flex items-center space-x-2">
+                <h4 className="font-semibold">{post.author.name}</h4>
+                <Badge variant="secondary">{post.author.role}</Badge>
+              </div>
+              <p className="text-sm text-muted-foreground">{post.timestamp}</p>
+              <p className="mt-2">{post.content}</p>
 
-      {/* Network Actions */}
-      <Card className="p-4">
-        <div className="flex space-x-4">
-          <Button variant="outline" className="flex-1">
-            <UserPlus className="w-4 h-4 mr-2" />
-            Connect
-          </Button>
-          <Button variant="outline" className="flex-1">
-            <Award className="w-4 h-4 mr-2" />
-            Endorse
-          </Button>
-        </div>
-      </Card>
+              <Separator className="my-4" />
 
-      {/* Feed Posts */}
-      <div className="space-y-4">
-        {posts.map((post) => (
-          <Card key={post.id} className="p-4">
-            <div className="flex items-start space-x-4">
-              <Avatar className="w-12 h-12">
-                <img src={post.author.avatar} alt={post.author.name} />
-              </Avatar>
-              <div className="flex-1">
-                <div className="flex items-center space-x-2">
-                  <h4 className="font-semibold">{post.author.name}</h4>
-                  <Badge variant="secondary">{post.author.role}</Badge>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {post.timestamp}
-                </p>
-                <p className="mt-2">{post.content}</p>
-
-                <Separator className="my-4" />
-
-                <div className="flex space-x-4">
-                  <Button variant="ghost" size="sm">
-                    <ThumbsUp className="w-4 h-4 mr-2" />
-                    {post.likes}
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <MessageCircle className="w-4 h-4 mr-2" />
-                    {post.comments}
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <Share2 className="w-4 h-4 mr-2" />
-                    {post.shares}
-                  </Button>
-                </div>
+              <div className="flex space-x-4">
+                <Button variant="ghost" size="sm">
+                  <ThumbsUp className="w-4 h-4 mr-2" />
+                  {post.likes}
+                </Button>
+                <Button variant="ghost" size="sm">
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  {post.comments}
+                </Button>
+                <Button variant="ghost" size="sm">
+                  <Share2 className="w-4 h-4 mr-2" />
+                  {post.shares}
+                </Button>
               </div>
             </div>
-          </Card>
-        ))}
-      </div>
+          </div>
+        </Card>
+      ))}
     </div>
   );
 };
